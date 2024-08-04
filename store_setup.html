@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bookeD-Up</title>
+    <link rel="stylesheet" href="storeset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    <header>
+        <img src="/assets/Black_And_White_Aesthetic_Minimalist_Modern_Simple_Typography_Coconut_Cosmetics_Logo-removebg-preview.png" alt="Company Logo" class="logo">
+        <h1>Setup Your Store</h1>
+    </header>
+    <main>
+        <div class="container">
+            <div class="calendar-container">
+                <label for="calendar">Availability Dates</label>
+                <input type="text" id="calendar" name="calendar" placeholder="Select your Availability Dates" required>
+            </div>
+            <div class="form-container">
+                <form id="storeSetupForm">
+                    <label for="storeName">Store Name / Name</label>
+                    <input type="text" id="storeName" name="storeName" required>
+
+                    <label for="storeAddress">Store Address (Nil if none)</label>
+                    <input type="text" id="storeAddress" name="storeAddress" required>
+
+                    <label for="services">Services Offered</label>
+                    <select id="services" name="services" required>
+                        <option value="">Select a Service</option>
+                        <option value="Manicure/Pedicure">Manicure/Pedicure</option>
+                        <option value="Spa">Spa</option>
+                        <option value="Tutoring">Tutoring</option>
+                        <option value="Hair/Nails/Lashes">Hair/Nails/Lashes</option>
+                        <option value="Barbing">Barbing</option>
+                        <option value="Braiding">Braiding</option>
+                    </select>
+
+                    <label for="mode">Mode of Service</label>
+                    <select id="mode" name="mode" required>
+                        <option value="">Select Mode</option>
+                        <option value="In person">In person</option>
+                        <option value="Online">Online</option>
+                        <option value="Both">Both</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+        <div class="button-container">
+            <a href = "dashboard.html"><button type="submit" form="storeSetupForm">Save and Build</button></a>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 All rights reserved. bookeD-Up</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr("#calendar", {
+            mode: "multiple",
+            minDate: "today",
+            dateFormat: "Y-m-d",
+            inline: true
+        });
+
+        document.getElementById('storeSetupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            fetch('/setup_store', {
+                method: 'POST',
+                body: JSON.stringify(Object.fromEntries(formData)),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message));
+        });
+    </script>
+</body>
+</html>

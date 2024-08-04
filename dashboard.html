@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bookeD-Up</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body>
+    <header>
+        <img src="/assets/Black_And_White_Aesthetic_Minimalist_Modern_Simple_Typography_Coconut_Cosmetics_Logo-removebg-preview.png" alt="Company Logo" class="logo">
+        <h1>Business Dashboard</h1>
+        <div class="profile">
+            <i class="fas fa-user-circle" id="profile-icon"></i>
+            <div id="profile-dropdown" class="dropdown-content">
+                <a href="index.html">Logout</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="store-info">
+            <h2 id="storeName">Store Name: <!-- Dynamic Store Name --></h2>
+            <h3 id="storeAddress">Address: <!-- Dynamic Store Address --></h3>
+            <p>Store Code: <span id="storeCode"><!-- Dynamic Store Code --></span> <button onclick="copyToClipboard()">Copy</button></p>
+            <p>Selected Availability Dates:</p>
+            <ul id="availability">
+                <!-- List of Available Dates -->
+            </ul>
+            <button id="viewAppointments">View Appointments</button>
+        </div>
+        <div class="actions">
+            <button id="editStore">Edit Store</button>
+            <button id="closeStore">Close Down Store</button>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Toggle profile dropdown
+        document.getElementById('profile-icon').addEventListener('click', function() {
+            document.getElementById('profile-dropdown').classList.toggle('show');
+        });
+
+        // Function to copy store code to clipboard
+        function copyToClipboard() {
+            const storeCode = document.getElementById('storeCode').textContent;
+            navigator.clipboard.writeText(storeCode).then(() => {
+                alert('Store code copied to clipboard');
+            });
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('#profile-icon')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        // Populate store info dynamically (Assuming this data is passed to the template)
+        document.addEventListener('DOMContentLoaded', function() {
+            const storeName = "Daniel's Store"; // Example store name
+            const storeAddress = "1234 Win St, Springfield"; // Example address
+            const storeCode = "1234567"; // Example code
+            const availabilityDates = ["2024-08-10", "2024-08-11", "2024-08-12"]; // Example dates
+
+            document.getElementById('storeName').textContent = `Store Name: ${storeName}`;
+            document.getElementById('storeAddress').textContent = `Address: ${storeAddress}`;
+            document.getElementById('storeCode').textContent = storeCode;
+
+            const availabilityList = document.getElementById('availability');
+            availabilityDates.forEach(date => {
+                const li = document.createElement('li');
+                li.textContent = date;
+                availabilityList.appendChild(li);
+            });
+        });
+    </script>
+</body>
+</html>
